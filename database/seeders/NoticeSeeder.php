@@ -26,7 +26,7 @@ class NoticeSeeder extends Seeder
                 'title'=> $faker->realText(10),
                 'medium'=> $faker->realText(130),
                 'date'=> Carbon::now('-05:00'),
-                'file'=> Storage::path('public\\img\\img_test_'.$i.'.png'),
+                'file'=> Storage::path('public\\img\\test\\img_test_'.$i.'.png'),
             ]);
         }
     }
