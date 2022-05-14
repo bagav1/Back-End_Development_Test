@@ -103,19 +103,30 @@ class UserController extends Controller
         }
     }
 
-
-    /**
-     * It returns a JSON response with a status of true and the data of the name input
-     *
-     * @param Request request The request object.
-     *
-     * @return A JSON response with a status of true and the data being the name input.
-     */
-    public function test(Request $request)
+    public function delete(Int $id)
     {
-        return response()->json([
-            'status' => true,
-            'data' => $request->input('name'),
-        ], 200);
+        try {
+            $user = User::where('id', $id)->first();
+            if(!$user){
+                return response()->json([
+                    'status' => false,
+                    'data' => [
+                        'error'=>'Id de usuario no encontrado. Id'.$id
+                    ]
+                ], 400);
+            }
+            $user->delete();
+            return response()->json([
+                'status' => true,
+                'data' => [
+                    'message'=>'Usuario eliminado correctamente. Id'.$id
+                ]
+            ], 200);
+        } catch (Exception $ex) {
+            return response()->json([
+                'status' => false,
+                'error'=>$ex->getMessage()
+            ], 400);
+        }
     }
 }
