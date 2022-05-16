@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -128,5 +129,10 @@ class UserController extends Controller
                 'error'=>$ex->getMessage()
             ], 400);
         }
+    }
+
+    public function test(Request $request)
+    {
+        Log::info($request->all());
     }
 }

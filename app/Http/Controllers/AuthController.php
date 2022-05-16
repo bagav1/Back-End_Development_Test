@@ -52,7 +52,22 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            $user = $request->user();
+            $user = Auth::user();
+            if ($user->state_id == 1) {
+                return response()->json([
+                    'status' => false,
+                    'data' => [
+                        'message' => 'Usuario pendiente por aprobacion.'
+                    ]
+                ], 206);
+            }elseif ($user->state_id == 3) {
+                return response()->json([
+                    'status' => false,
+                    'data' => [
+                        'message' => 'Usuario con peticion rechazada.'
+                    ]
+                ], 206);
+            }
             $tokenResult = $user->createToken('AccessToken');
             $token = $tokenResult->accessToken;
 
@@ -62,7 +77,7 @@ class AuthController extends Controller
                     'user' => $user['email'],
                     'accessToken' => $token,
                 ]
-            ]);
+            ], 200);
         } catch (Exception $ex) {
             return response()->json([
                 'status' => false,
@@ -73,15 +88,26 @@ class AuthController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        $request->user()->token()->revoke();
+        try {
+            Auth::user()->tokens->each(function ($token, $key) {
+                $token->delete();
+            });
 
-        return response()->json([
-            'status' => true,
-            'data' => [
-                'message' => 'Sesion cerrada correctamente.'
-            ]
-        ], 201);
+            return response()->json([
+                'status' => true,
+                'data' => [
+                    'message' => 'Sesion cerrada correctamente.'
+                ]
+            ], 201);
+        } catch (Exception $ex) {
+            return response()->json([
+                'status' => false,
+                'data' => [
+                    'error' => $ex
+                ]
+            ], 400);
+        }
     }
 }

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Notice;
 use Exception;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class NoticeController extends Controller
@@ -55,7 +55,8 @@ class NoticeController extends Controller
             $request->validate([
                 'title' => 'required|string',
                 'medium' => 'required|string',
-                'file' => 'required|mimes:png,jpg,jpeg|max:2048'
+                'date' => 'required|date',
+                'file' => 'required|mimes:png,jpg,jpeg'
             ]);
 
             $nameFile = uniqid('notice_');
@@ -65,7 +66,7 @@ class NoticeController extends Controller
             $notice = Notice::create([
                 'title' => $request->title,
                 'medium' => $request->medium,
-                'date' => Carbon::now('-05:00'),
+                'date' => $request->date,
                 'file' => asset(Storage::url($request->file('file')->storeAs($ruteFile, $nameFile . '.' . $extFile)))
             ]);
 
@@ -73,7 +74,7 @@ class NoticeController extends Controller
                 'status' => true,
                 'data' => [
                     'message' => 'Noticia creada correctamente.',
-                    'user' => $notice
+                    'notice' => $notice
                 ]
             ], 201);
         } catch (Exception $ex) {
@@ -82,6 +83,14 @@ class NoticeController extends Controller
                 'error' => $ex->getMessage()
             ], 400);
         }
+        // Log::info($request->all());
+        // return response()->json([
+        //     'status' => true,
+        //     'data' => [
+        //         'message' => 'Noticia creada correctamente.',
+        //         'data' => $request->all()
+        //     ]
+        // ], 201);
     }
 
     public function update(Int $id, Request $request)

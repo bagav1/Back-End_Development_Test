@@ -12,7 +12,25 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route::get('{any}', function () {
+//     return view('layouts.app');
+// })->where('any', '.*');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/dashboard');
+
+Route::get('/login', function () {
+    return view('layouts.app', ['rute' => 'login']);
+})->name('login');
+
+Route::get('/register', function () {
+    return view('layouts.app', ['rute' => 'register']);
+})->name('register');
+
+Route::get('/dashboard', function () {
+    return view('layouts.app', ['rute' => 'dashboard']);
+})->name('dashboard');
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });

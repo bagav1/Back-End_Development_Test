@@ -21,6 +21,7 @@ use App\Http\Controllers\NoticeController;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::post('test', [UserController::class, 'test']);
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('signup', [AuthController::class, 'register']);

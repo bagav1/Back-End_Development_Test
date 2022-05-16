@@ -19,13 +19,13 @@ class NoticeSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        for($i=0; $i<5; $i++)
+        for($i=0; $i<3; $i++)
         {
             DB::table('notices')->insert([
                 'title'=> $faker->realText(10),
                 'medium'=> $faker->realText(130),
                 'date'=> Carbon::now('-05:00'),
-                'file'=> Storage::path('public\\img\\test\\img_test_'.$i.'.png'),
+                'file'=> 'http://127.0.0.1:8000/storage/img/test/iimg_test_'.$i.'.png',
             ]);
         }
     }
