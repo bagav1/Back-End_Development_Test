@@ -153,7 +153,6 @@ export default {
     },
     methods: {
         async uploadFile(e) {
-            console.log(e.target.files[0]);
             this.data.file = e.target.files[0];
         },
         async CreacionNoticia() {
@@ -163,18 +162,14 @@ export default {
             dataSend.append('date', this.data.date);
             dataSend.append('file', this.data.file);
             const res_update = await this.callApi('post', '/api/notice/create', dataSend);
-            console.log(res_update.data.data);
             window.location.reload(true);
         },
         async update(id, state) {
             const res_update = await this.callApi('put', '/api/user/update/' + id, { state_id: state });
-            console.log(`Usuario id:${id} actualizado, ${state == 2 ? 'Aceptado' : 'Rechazado'}`);
-            console.log(res_update.data.data);
             window.location.reload(true);
         },
         async logout() {
             const res_logout = await this.callApi('post', '/api/logout');
-            console.log(res_logout)
             localStorage.removeItem('token');
             window.location.assign('/login');
         },

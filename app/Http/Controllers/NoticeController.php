@@ -59,15 +59,16 @@ class NoticeController extends Controller
                 'file' => 'required|mimes:png,jpg,jpeg'
             ]);
 
-            $nameFile = uniqid('notice_');
-            $extFile = $request->file('file')->extension();
+            $nameFile = uniqid('notice_') . '.' . $request->file('file')->extension();
             $ruteFile = 'public/img/notices';
+
+            $request->file('file')->storeAs($ruteFile, $nameFile);
 
             $notice = Notice::create([
                 'title' => $request->title,
                 'medium' => $request->medium,
                 'date' => $request->date,
-                'file' => asset(Storage::url($request->file('file')->storeAs($ruteFile, $nameFile . '.' . $extFile)))
+                'file' => env('URL_IMG') . $ruteFile . '/' . $nameFile
             ]);
 
             return response()->json([

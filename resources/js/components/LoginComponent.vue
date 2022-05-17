@@ -53,12 +53,12 @@ export default {
             console.log(res_login);
             if (res_login.status == 206) {
                 this.textAlert('Pendiente. Intenta mas tarde');
-                console.log(res_login.data.data.message);
                 return;
             } else if (res_login.status == 200) {
                 localStorage.setItem('token', res_login.data.data.accessToken);
-                console.log(`Usuario logeado: ${res_login.data.data.user}`);
                 window.location.assign('/dashboard');
+            } else if (res_login == 'undefined') {
+                this.textAlert('usuario o contraseña incorrectos');
             }
         }
     }

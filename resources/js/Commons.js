@@ -19,30 +19,6 @@ export default {
             }).catch(function (error) {
                 console.log(error);
             });
-        },
-        i(desc, title = "Atencion") {
-            this.$Notice.info({
-                title: title,
-                desc: desc
-            });
-        },
-        s(desc, title = "Genial!") {
-            this.$Notice.success({
-                title: title,
-                desc: desc
-            });
-        },
-        w(desc, title = "Oops!") {
-            this.$Notice.warning({
-                title: title,
-                desc: desc
-            });
-        },
-        e(desc, title = "Oops!") {
-            this.$Notice.error({
-                title: title,
-                desc: desc
-            });
         }
     }
 }
